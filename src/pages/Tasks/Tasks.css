@@ -1,0 +1,51 @@
+.search-form {
+    display: flex;
+    margin-bottom: 16px;
+  }
+  
+  .search-input {
+    margin-right: 8px;
+    padding: 8px;
+  }
+  
+  .search-button {
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    cursor: pointer;
+  }
+  
+  .task-list {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .task-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 16px;
+    padding: 16px;
+    background-color: #f2f2f2;
+  }
+  
+  .task-info {
+    flex: 1;
+  }
+  
+  .task-info h3 {
+    margin: 0;
+  }
+  
+  .task-actions button {
+    margin-right: 8px;
+    padding: 8px 16px;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .task-actions button:last-child {
+    background-color: #f44336;
+    color: white;
+  }
+  
