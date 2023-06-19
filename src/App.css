@@ -1,0 +1,32 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.main_app nav {
+    background-color: #f2f2f2;
+    width: 100%;
+    padding: 20px;
+}
+
+.main_app nav ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0 30px;
+}
+
+
+.main_app nav ul li a {
+    text-decoration: none;
+    color: black;
+    gap: 0 40px;
+    font-size: 20px;
+}
+
+.main_app nav ul li a:hover {
+    opacity: .7;
+    transition: .5 ease-in-out;
+}

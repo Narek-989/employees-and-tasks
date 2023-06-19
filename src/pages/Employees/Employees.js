@@ -94,7 +94,7 @@ const EmployeesPage = () => {
             </div>
             <div className="employee-actions">
               <button onClick={() => updateEmployee(employee.id, { name: 'New Name' })}>Update</button>
-              <button onClick={() => deleteEmployee(employee.id)}>Delete</button>
+              <button onClick={() => deleteEmployee(employee.id)} className='delete_btn'>Delete</button>
             </div>
           </div>
         ))}
@@ -106,9 +106,6 @@ const EmployeesPage = () => {
           <p>Surname: {selectedEmployee.surname}</p>
           <p>Position: {selectedEmployee.position}</p>
           <h3>Tasks</h3>
-          <ul>
-            {/* Fetch and display tasks for the selected employee */}
-          </ul>
         </div>
       )}
       <div className="create-employee-form">

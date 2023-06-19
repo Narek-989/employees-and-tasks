@@ -36,7 +36,7 @@ const TasksForm = ({ onCreate }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className='create_task_main'>
       <input type="text" name="name" value={taskData.name} onChange={handleChange} placeholder="Name" required />
       <input type="text" name="description" value={taskData.description} onChange={handleChange} placeholder="Description" required />
       <input type="date" name="startDate" value={taskData.startDate} onChange={handleChange} required />

@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import TaskForm from './TasksForm';
 import TaskList from './TasksList';
 
+import "./Tasks.css"
+
 const TasksPage = () => {
   const [tasks, setTasks] = useState([]);
 
@@ -70,11 +72,11 @@ const TasksPage = () => {
   };
 
   return (
-    <div>
-    <h1>Tasks</h1>
-    <TaskForm onCreate={createTask} />
-    <TaskList tasks={tasks} onUpdate={updateTask} onDelete={deleteTask} onSearch={fetchTasks} />
-  </div>
+    <div className='main_taskPage'>
+      <h1>Tasks</h1>
+      <TaskForm onCreate={createTask} />
+      <TaskList tasks={tasks} onUpdate={updateTask} onDelete={deleteTask} onSearch={fetchTasks} />
+    </div>
   );
 };
 
