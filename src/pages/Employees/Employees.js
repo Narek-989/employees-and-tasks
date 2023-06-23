@@ -1,138 +1,128 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import "./Employees.css"
+import { useDispatch, useSelector } from 'react-redux';
+import { downloadUserData } from '../../redux/userDataSlice/userDataSlice';
+import EmployeesForTasks from './EmployeesForTasks/EmployeesForTasks';
+import { downloadTasksData } from '../../redux/tasksDataSlice/tasksDataSlice';
+import { createEmployee } from '../actions/actions';
+import UpdateEmployee from './UpdateEmployeeModal/UpdateEmployeeModal';
+import DeleteEmployee from './DeleteEmployeeModal/DeleteEmployee';
 
 const EmployeesPage = () => {
-  const [employees, setEmployees] = useState([]);
-  const [selectedEmployee, setSelectedEmployee] = useState(null);
+  const UserTaskData = useSelector(state => state.userData)
+  const tasks = useSelector(state => state.tasksData);
+  const dispatch = useDispatch();
+
+  const [name, setName] = useState('');
+  const [surname, setSurname] = useState('');
+  const [position, setPosition] = useState('');
+  const [email, setEmail] = useState('');
+
 
   useEffect(() => {
-    fetchEmployees();
+    if (UserTaskData.length < 1) {
+      dispatch(downloadUserData())
+    }
+
+    if (tasks.length < 1) {
+      dispatch(downloadTasksData())
+    }
   }, []);
 
-  const fetchEmployees = async () => {
-    try {
-      const response = await fetch('https://rocky-temple-83495.herokuapp.com/employees');
-      const data = await response.json();
-      setEmployees(data);
-    } catch (error) {
-      console.error('Error fetching employees:', error);
-    }
-  };
 
-  const createEmployee = async (employeeData) => {
-    try {
-      const response = await fetch('https://rocky-temple-83495.herokuapp.com/employees', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(employeeData),
-      });
-      if (response.ok) {
-        fetchEmployees();
-      } else {
-        console.error('Failed to create employee:', response.statusText);
-      }
-    } catch (error) {
-      console.error('Error creating employee:', error);
-    }
-  };
-
-  const updateEmployee = async (employeeId, updatedData) => {
-    try {
-      const response = await fetch(`https://rocky-temple-83495.herokuapp.com/employees/${employeeId}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(updatedData),
-      });
-      if (response.ok) {
-        fetchEmployees();
-      } else {
-        console.error('Failed to update employee:', response.statusText);
-      }
-    } catch (error) {
-      console.error('Error updating employee:', error);
-    }
-  };
-
-  const deleteEmployee = async (employeeId) => {
-    try {
-      const response = await fetch(`https://rocky-temple-83495.herokuapp.com/employees/${employeeId}`, {
-        method: 'DELETE',
-      });
-      if (response.ok) {
-        fetchEmployees();
-      } else {
-        console.error('Failed to delete employee:', response.statusText);
-      }
-    } catch (error) {
-      console.error('Error deleting employee:', error);
-    }
-  };
-
-  const handleEmployeeClick = async (employeeId) => {
-    try {
-      const response = await fetch(`https://rocky-temple-83495.herokuapp.com/employees/${employeeId}`);
-      const data = await response.json();
-      setSelectedEmployee(data);
-    } catch (error) {
-      console.error('Error fetching employee information:', error);
-    }
-  };
+  console.log(UserTaskData);
 
   return (
     <div className="employees-page">
       <div className="employee-list">
         <h2>Employees</h2>
-        {employees.map((employee) => (
-          <div
-            key={employee.id}
-            className={`employee-item ${selectedEmployee?.id === employee.id ? 'selected' : ''}`}
-            onClick={() => handleEmployeeClick(employee.id)}
-          >
+        {UserTaskData.userData?.map((employee) => (
+          <div key={employee.id} className='employee-item container'>
             <div className="employee-info">
-              <h3>{employee.name} {employee.surname}</h3>
-              <p>Position: {employee.position}</p>
+              <h5>Name: {employee.name} </h5>
+              <h5>Surname: {employee.surname}</h5>
+              <h5>Position: {employee.position}</h5>
+              <h5>Email: {employee.email}</h5>
             </div>
             <div className="employee-actions">
-              <button onClick={() => updateEmployee(employee.id, { name: 'New Name' })}>Update</button>
-              <button onClick={() => deleteEmployee(employee.id)} className='delete_btn'>Delete</button>
+              <EmployeesForTasks employee={employee} />
+              <UpdateEmployee employee={employee} />
+              <DeleteEmployee employee={employee} />
             </div>
           </div>
         ))}
       </div>
-      {selectedEmployee && (
-        <div className="employee-details">
-          <h2>Employee Details</h2>
-          <p>Name: {selectedEmployee.name}</p>
-          <p>Surname: {selectedEmployee.surname}</p>
-          <p>Position: {selectedEmployee.position}</p>
-          <h3>Tasks</h3>
-        </div>
-      )}
+
       <div className="create-employee-form">
         <h2>Create Employee</h2>
         <form onSubmit={(e) => {
           e.preventDefault();
-          const formData = new FormData(e.target);
-          const newEmployee = {
-            name: formData.get('name'),
-            surname: formData.get('surname'),
-            position: formData.get('position'),
-          };
-          createEmployee(newEmployee);
+          createEmployee({ name, surname, position, email })
+            .then(() => {
+              dispatch(downloadUserData())
+            })
+            .catch(error => console.log(error))
+
+          setName('')
+          setSurname('')
+          setPosition('')
+          setEmail('')
         }}>
           <div className="form-field">
             <label htmlFor="name">Name:</label>
-            <input type="text" id="name" name="name" required />
+            <input
+              type="text"
+              id="name"
+              name="name"
+              value={name}
+              onChange={(e) => {
+                setName(e.target.value);
+              }}
+              required
+            />
           </div>
           <div className="form-field">
             <label htmlFor="surname">Surname:</label>
-            <input type="text" id="surname" name="surname" required />
+            <input
+              type="text"
+              id="surname"
+              name="surname"
+              value={surname}
+              onChange={(e) => {
+                setSurname(e.target.value);
+              }}
+              required
+            />
           </div>
           <div className="form-field">
             <label htmlFor="position">Position:</label>
-            <input type="text" id="position" name="position" required />
+            <input
+              type="text"
+              id="position"
+              name="position"
+              value={position}
+              onChange={(e) => {
+                setPosition(e.target.value);
+              }}
+              required
+            />
           </div>
-          <button type="submit">Create</button>
+          <div className="form-field">
+            <label htmlFor="email">Email:</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              value={email}
+              onChange={(e) => {
+                setEmail(e.target.value);
+              }}
+              required
+            />
+          </div>
+          <div className="form-field_btn">
+            <button className='create_employee_btn' type="submit">Create</button>
+          </div>
         </form>
       </div>
     </div>

@@ -70,7 +70,100 @@
     cursor: pointer;
 }
 
-.task-actions button:last-child {
-    background-color: #f44336;
-    color: white;
+.task-actions button:nth-child(1) {
+    background-color: green;
+}
+
+.task-actions button:nth-child(2) {
+    background-color: red;
+}
+
+
+/* TasksForm */
+.main_tasks_form form {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+}
+
+.main_tasks_form div {
+    width: 12%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+}
+
+.main_tasks_form form input {
+    width: 100%;
+    padding: 5px 10px;
+}
+
+.tasksForm_select {
+    width: 100%;
+    padding: 8px 10px;
+}
+
+/* SearchTask */
+
+.main_search_task form {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 0 15px;
+    align-items: center;
+}
+
+.main_search_task div {
+    width: 12%;
+}
+
+.main_search_task form input {
+    width: 100%;
+}
+
+
+
+@media screen and (max-width: 1200px) {
+
+    /* TasksForm */
+    .main_tasks_form form {
+        flex-direction: column;
+    }
+
+    .main_tasks_form div {
+        width: 22%;
+    }
+
+    /* SearchTask */
+    .main_search_task form {
+        flex-direction: column;
+        gap: 15px 0;
+    }
+
+    .main_search_task div {
+        width: 22%;
+    }
+}
+
+@media screen and (max-width: 768px) {
+
+    /* TasksForm */
+
+    .main_tasks_form div {
+        width: 12rem;
+    }
+
+    /* SearchTask */
+
+    .main_search_task div {
+        width: 12rem;
+    }
+
+    /* TaskData */
+    .task-item {
+        flex-direction: column;
+    }
 }
